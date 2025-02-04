@@ -1,16 +1,44 @@
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+// Keyframes for animations
+const pulse = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
 
 const DropzoneContainer = styled.div`
-  border: 2px dashed #ccc;
-  border-radius: 10px;
-  padding: 20px;
+  border: 2px dashed #ffffff;
+  border-radius: 15px;
+  padding: 30px;
   text-align: center;
   cursor: pointer;
-  width: 300px;
+  width: 100%;
+  max-width: 400px;
   margin-bottom: 20px;
-  background-color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  animation: ${pulse} 2s infinite;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  p {
+    font-size: 1.1rem;
+    color: white;
+    margin: 0;
+    opacity: 0.9;
+  }
 `;
 
 const FileUploader = ({ onUpload }) => {
