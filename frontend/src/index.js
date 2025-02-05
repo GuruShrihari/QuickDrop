@@ -1,13 +1,23 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client'; // Import from 'react-dom/client'
+import { createRoot } from 'react-dom/client'; // Import createRoot instead of ReactDOM
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './Home';
 import App from './App';
 
-// Create a root for the app
-const root = ReactDOM.createRoot(document.getElementById('root'));
+// Get the root element
+const rootElement = document.getElementById('root');
 
-// Render the app inside the root
+// Create a root instance
+const root = createRoot(rootElement);
+
+// Render your app inside the root
 root.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/app" element={<App />} />
+      </Routes>
+    </Router>
   </React.StrictMode>
 );
