@@ -80,6 +80,7 @@ const Button = styled.button`
   &:hover {
     background-color: #ff3b2f;
     transform: scale(1.05);
+    animation: ${pulse} 0.5s ease-in-out;
   }
 `;
 

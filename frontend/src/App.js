@@ -4,6 +4,7 @@ import { QRCodeCanvas } from 'qrcode.react';
 import styled, { keyframes } from 'styled-components';
 import FileUploader from './components/FileUploader';
 
+
 // Keyframes for animations
 const fadeIn = keyframes`
   from {
@@ -44,6 +45,10 @@ const Container = styled.div`
   @media (max-width: 768px) {
     padding: 10px;
   }
+
+  @media (max-width: 480px) {
+    padding: 5px;
+  }
 `;
 
 const HeroSection = styled.div`
@@ -59,6 +64,10 @@ const HeroSection = styled.div`
     @media (max-width: 768px) {
       font-size: 2rem;
     }
+
+    @media (max-width: 480px) {
+      font-size: 1.5rem;
+    }
   }
 
   p {
@@ -68,6 +77,9 @@ const HeroSection = styled.div`
 
     @media (max-width: 768px) {
       font-size: 1rem;
+    }
+      @media (max-width: 480px) {
+      font-size: 0.9rem;
     }
   }
 `;
@@ -86,6 +98,7 @@ const Button = styled.button`
   // Apply pulse animation on hover
   &:hover {
     background-color: #ff3b2f;
+    transform: scale(1.05);
     animation: ${pulse} 0.5s ease-in-out;
   }
 `;
@@ -115,6 +128,7 @@ const QRCodeContainer = styled.div`
 const App = () => {
   const [fileUrl, setFileUrl] = useState('');
   const [ngrokUrl, setNgrokUrl] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleUpload = async (file) => {
     const formData = new FormData();
@@ -128,9 +142,11 @@ const App = () => {
       });
 
       setFileUrl(response.data.fileUrl);
-      setNgrokUrl('https://17c0-2405-201-e003-11a6-60ed-9d0a-ccb-3634.ngrok-free.app' + response.data.fileUrl); // Replace with your ngrok URL
+      setNgrokUrl('https://3acd-152-52-100-226.ngrok-free.app' + response.data.fileUrl); // Replace with your ngrok URL
     } catch (error) {
       console.error('Error uploading file:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -147,6 +163,9 @@ const App = () => {
 
       {/* File Uploader */}
       <FileUploader onUpload={handleUpload} />
+
+      {/* Loading Spinner */}
+      {isLoading && <p>Loading...</p>}
 
       {/* QR Code Display */}
       {fileUrl && (

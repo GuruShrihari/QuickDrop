@@ -22,9 +22,10 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage,
+  limits: { fileSize: 500 * 1024 * 1024 },});
 
-app.use(cors());
+app.use(cors({ origin: '*' }));
 app.use(express.static(path.join(__dirname, 'uploads')));
 
 // Route to serve uploaded files

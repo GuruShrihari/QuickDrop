@@ -38,7 +38,19 @@ const DropzoneContainer = styled.div`
     color: white;
     margin: 0;
     opacity: 0.9;
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 0.9rem;
+    }
   }
+    
+    @media (max-width: 480px) {
+      padding: 20px;
+      width: 300px;
+    }
 `;
 
 const FileUploader = ({ onUpload }) => {
