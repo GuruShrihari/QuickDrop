@@ -1,32 +1,19 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { QRCodeCanvas } from 'qrcode.react';
 import styled, { keyframes } from 'styled-components';
 import FileUploader from './components/FileUploader';
 
-
 // Keyframes for animations
 const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 `;
-
 const pulse = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
 `;
 
 // Styled components
@@ -41,46 +28,22 @@ const Container = styled.div`
   color: white;
   padding: 20px;
   text-align: center;
-
-  @media (max-width: 768px) {
-    padding: 10px;
-  }
-
-  @media (max-width: 480px) {
-    padding: 5px;
-  }
+  position: relative;
 `;
 
 const HeroSection = styled.div`
   margin-bottom: 40px;
   animation: ${fadeIn} 1s ease-in-out;
-
   h1 {
     font-size: 3rem;
     font-weight: bold;
     margin-bottom: 10px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-
-    @media (max-width: 768px) {
-      font-size: 2rem;
-    }
-
-    @media (max-width: 480px) {
-      font-size: 1.5rem;
-    }
   }
-
   p {
     font-size: 1.2rem;
     opacity: 0.9;
     margin-bottom: 20px;
-
-    @media (max-width: 768px) {
-      font-size: 1rem;
-    }
-      @media (max-width: 480px) {
-      font-size: 0.9rem;
-    }
   }
 `;
 
@@ -94,12 +57,23 @@ const Button = styled.button`
   font-size: 1rem;
   font-weight: bold;
   transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
-
-  // Apply pulse animation on hover
   &:hover {
     background-color: #ff3b2f;
     transform: scale(1.05);
     animation: ${pulse} 0.5s ease-in-out;
+  }
+`;
+
+const BackButton = styled(Button)`
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 0.9rem;
+  padding: 8px 16px;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.4);
   }
 `;
 
@@ -111,17 +85,8 @@ const QRCodeContainer = styled.div`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease-in-out;
   animation: ${fadeIn} 1s ease-in-out;
-
   &:hover {
     transform: scale(1.05);
-  }
-
-  p {
-    margin-bottom: 10px;
-  }
-
-  a {
-    text-decoration: none;
   }
 `;
 
@@ -129,20 +94,18 @@ const App = () => {
   const [fileUrl, setFileUrl] = useState('');
   const [ngrokUrl, setNgrokUrl] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleUpload = async (file) => {
+    setIsLoading(true);
     const formData = new FormData();
     formData.append('file', file);
-
     try {
-      const response = await axios.post('http://localhost:5000/upload', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+      const response = await axios.post('https://5d10-2405-201-e003-11a6-2ce4-9e0b-ba95-cb4e.ngrok-free.app/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' },
       });
-
       setFileUrl(response.data.fileUrl);
-      setNgrokUrl('https://3acd-152-52-100-226.ngrok-free.app' + response.data.fileUrl); // Replace with your ngrok URL
+      setNgrokUrl('https://5d10-2405-201-e003-11a6-2ce4-9e0b-ba95-cb4e.ngrok-free.app' + response.data.fileUrl);
     } catch (error) {
       console.error('Error uploading file:', error);
     } finally {
@@ -152,6 +115,9 @@ const App = () => {
 
   return (
     <Container>
+      {/* Back Button */}
+      <BackButton onClick={() => navigate('/')}>← Back to Home</BackButton>
+
       {/* Hero Section */}
       <HeroSection>
         <h1>⚡ QuickDrop</h1>

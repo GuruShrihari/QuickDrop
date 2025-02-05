@@ -18,7 +18,7 @@ const pulse = keyframes`
 const DropzoneContainer = styled.div`
   border: 2px dashed #ffffff;
   border-radius: 15px;
-  padding: 30px;
+  padding: 20px;
   text-align: center;
   cursor: pointer;
   width: 100%;
