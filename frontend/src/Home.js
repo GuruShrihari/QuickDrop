@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
+import TiltedCard from './components/TiltedCard';
+
 
 // Keyframes for animations
 const fadeIn = keyframes`
@@ -38,6 +40,10 @@ const Container = styled.div`
   color: white;
   padding: 20px;
   text-align: center;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 const HeroSection = styled.div`
@@ -68,7 +74,7 @@ const HeroSection = styled.div`
 
 const Button = styled.button`
   padding: 12px 24px;
-  background-color: #ff6f61;
+  background-color:rgb(0, 0, 0);
   color: white;
   border: none;
   border-radius: 25px;
@@ -78,7 +84,7 @@ const Button = styled.button`
   transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 
   &:hover {
-    background-color: #ff3b2f;
+    background-color:rgb(30, 21, 21);
     transform: scale(1.05);
     animation: ${pulse} 0.5s ease-in-out;
   }
@@ -98,28 +104,6 @@ const FeaturesSection = styled.div`
   }
 `;
 
-const FeatureCard = styled.div`
-  background: rgba(255, 255, 255, 0.1);
-  padding: 20px;
-  border-radius: 10px;
-  width: 250px;
-  transition: transform 0.3s ease-in-out;
-
-  &:hover {
-    transform: scale(1.05);
-  }
-
-  h3 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-  }
-
-  p {
-    font-size: 1rem;
-    opacity: 0.8;
-  }
-`;
-
 const Home = () => {
   const navigate = useNavigate();
 
@@ -134,22 +118,73 @@ const Home = () => {
         <h1>⚡ QuickDrop</h1>
         <p>Share files instantly with a simple drag-and-drop. Fast, secure, and easy to use.</p>
         <Button onClick={handleGetStarted}>Get Started</Button>
+        
       </HeroSection>
 
       {/* Features Section */}
       <FeaturesSection>
-        <FeatureCard>
-          <h3>🚀 Fast Uploads</h3>
-          <p>Upload and share files in seconds with our lightning-fast servers.</p>
-        </FeatureCard>
-        <FeatureCard>
-          <h3>🔒 Secure Sharing</h3>
-          <p>Your files are encrypted and securely stored for private sharing.</p>
-        </FeatureCard>
-        <FeatureCard>
-          <h3>📱 QR Code Access</h3>
-          <p>Generate QR codes for easy access to your shared files.</p>
-        </FeatureCard>
+        {/* Tilted Card for Fast Uploads */}
+        <TiltedCard
+          imageSrc="https://iili.io/2DIE249.gif"
+          altText="Fast Uploads"
+          captionText="🚀 Fast Uploads"
+          containerHeight="300px"
+          containerWidth="300px"
+          imageHeight="300px"
+          imageWidth="300px"
+          rotateAmplitude={12}
+          scaleOnHover={1.2}
+          showMobileWarning={false}
+          showTooltip={true}
+          displayOverlayContent={true}
+          overlayContent={
+            <p className="tilted-card-demo-text">
+              Upload and share files in seconds with our lightning-fast servers.
+            </p>
+          }
+        />
+
+        {/* Tilted Card for Secure Sharing */}
+        <TiltedCard
+          imageSrc="https://iili.io/2DIaRPn.gif"
+          altText="Secure Sharing"
+          captionText="🔒 Secure Sharing"
+          containerHeight="300px"
+          containerWidth="300px"
+          imageHeight="300px"
+          imageWidth="300px"
+          rotateAmplitude={12}
+          scaleOnHover={1.2}
+          showMobileWarning={false}
+          showTooltip={true}
+          displayOverlayContent={true}
+          overlayContent={
+            <p className="tilted-card-demo-text">
+              Your files are encrypted and securely stored for private sharing.
+            </p>
+          }
+        />
+
+        {/* Tilted Card for QR Code Access */}
+        <TiltedCard
+          imageSrc="https://iili.io/2Dx8KeS.gif"
+          altText="QR Code Access"
+          captionText="📱 QR Code Access"
+          containerHeight="300px"
+          containerWidth="300px"
+          imageHeight="300px"
+          imageWidth="300px"
+          rotateAmplitude={12}
+          scaleOnHover={1.2}
+          showMobileWarning={false}
+          showTooltip={true}
+          displayOverlayContent={true}
+          overlayContent={
+            <p className="tilted-card-demo-text">
+              Generate QR codes for easy access to your shared files.
+            </p>
+          }
+        />
       </FeaturesSection>
     </Container>
   );

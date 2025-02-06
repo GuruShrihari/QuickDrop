@@ -101,11 +101,11 @@ const App = () => {
     const formData = new FormData();
     formData.append('file', file);
     try {
-      const response = await axios.post('https://0271-2405-201-e003-11a6-2ce4-9e0b-ba95-cb4e.ngrok-free.app/upload', formData, {
+      const response = await axios.post('https://fe2e-2405-201-e003-11a6-eccb-64e8-c18c-7eef.ngrok-free.app/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setFileUrl(response.data.fileUrl);
-      setNgrokUrl('https://0271-2405-201-e003-11a6-2ce4-9e0b-ba95-cb4e.ngrok-free.app' + response.data.fileUrl);
+      setNgrokUrl('https://fe2e-2405-201-e003-11a6-eccb-64e8-c18c-7eef.ngrok-free.app' + response.data.fileUrl);
     } catch (error) {
       console.error('Error uploading file:', error);
     } finally {
