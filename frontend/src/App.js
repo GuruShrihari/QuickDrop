@@ -4,6 +4,7 @@ import axios from 'axios';
 import { QRCodeCanvas } from 'qrcode.react';
 import styled, { keyframes } from 'styled-components';
 import FileUploader from './components/FileUploader';
+import BlurText from "./components/BlurText";
 
 // Keyframes for animations
 const fadeIn = keyframes`
@@ -26,7 +27,7 @@ const Container = styled.div`
   background: linear-gradient(135deg, #6a11cb, #2575fc);
   font-family: 'Poppins', sans-serif;
   color: white;
-  padding: 20px;
+  padding: 0px;
   text-align: center;
   position: relative;
 `;
@@ -44,6 +45,10 @@ const HeroSection = styled.div`
     font-size: 1.2rem;
     opacity: 0.9;
     margin-bottom: 20px;
+
+    @media (max-width: 432px) {
+      font-size: 1rem;
+    }
   }
 `;
 
@@ -90,6 +95,14 @@ const QRCodeContainer = styled.div`
   }
 `;
 
+const Blur = styled.div`
+  @import url("https://fonts.googleapis.com/css2?family=Concert+One&display=swap");
+  font-family: "Concert One", cursive;
+  font-weight: 400;
+  font-size: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+`;
+
 const App = () => {
   const [fileUrl, setFileUrl] = useState('');
   const [ngrokUrl, setNgrokUrl] = useState('');
@@ -120,8 +133,17 @@ const App = () => {
 
       {/* Hero Section */}
       <HeroSection>
-        <h1>⚡ QuickDrop</h1>
-        <p>Share files instantly with a simple drag-and-drop.</p>
+        <h1>⚡QuickDrop</h1>
+        <Blur>
+          <BlurText
+            text="Share files instantly with a simple drag-and-drop."
+            delay={150}
+            animateBy="words"
+            direction="top"
+            className="text-2xl mb-8"
+          />
+        </Blur>
+        {/* <p>Share files instantly with a simple drag-and-drop.</p> */}
         <Button onClick={() => document.querySelector('input[type="file"]').click()}>
           Get Started
         </Button>

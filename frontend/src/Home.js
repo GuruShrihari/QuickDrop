@@ -1,7 +1,9 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
-import TiltedCard from './components/TiltedCard';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import styled, { keyframes } from "styled-components";
+import TiltedCard from "./components/TiltedCard";
+import Button from "./components/Button"; // Import the custom Button component
+import BlurText from "./components/BlurText";
 
 
 // Keyframes for animations
@@ -16,17 +18,17 @@ const fadeIn = keyframes`
   }
 `;
 
-const pulse = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-`;
+// const pulse = keyframes`
+//   0% {
+//     transform: scale(1);
+//   }
+//   50% {
+//     transform: scale(1.05);
+//   }
+//   100% {
+//     transform: scale(1);
+//   }
+// `;
 
 // Styled components
 const Container = styled.div`
@@ -36,7 +38,7 @@ const Container = styled.div`
   justify-content: center;
   min-height: 100vh;
   background: linear-gradient(135deg, #6a11cb, #2575fc);
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   color: white;
   padding: 20px;
   text-align: center;
@@ -51,10 +53,11 @@ const HeroSection = styled.div`
   animation: ${fadeIn} 1s ease-in-out;
 
   h1 {
+    
     font-size: 3.5rem;
     font-weight: bold;
     margin-bottom: 20px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.43);
 
     @media (max-width: 768px) {
       font-size: 2.5rem;
@@ -72,23 +75,38 @@ const HeroSection = styled.div`
   }
 `;
 
-const Button = styled.button`
-  padding: 12px 24px;
-  background-color:rgb(0, 0, 0);
-  color: white;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-weight: bold;
-  transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
-
-  &:hover {
-    background-color:rgb(30, 21, 21);
-    transform: scale(1.05);
-    animation: ${pulse} 0.5s ease-in-out;
-  }
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 `;
+
+const Blur = styled.div`
+  @import url("https://fonts.googleapis.com/css2?family=Concert+One&display=swap");
+  font-family: "Concert One", cursive;
+  font-weight: 400;
+  font-size: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+`;
+
+// const Button = styled.button`
+//   padding: 12px 24px;
+//   background-color:rgb(0, 0, 0);
+//   color: white;
+//   border: none;
+//   border-radius: 25px;
+//   cursor: pointer;
+//   font-size: 1rem;
+//   font-weight: bold;
+//   transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+
+//   &:hover {
+//     background-color:rgb(30, 21, 21);
+//     transform: scale(1.05);
+//     animation: ${pulse} 0.5s ease-in-out;
+//   }
+// `;
 
 const FeaturesSection = styled.div`
   display: flex;
@@ -108,17 +126,28 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleGetStarted = () => {
-    navigate('/app'); // Redirect to the App.js page
+    navigate("/app"); // Redirect to the App.js page
   };
 
   return (
     <Container>
       {/* Hero Section */}
       <HeroSection>
-        <h1>⚡ QuickDrop</h1>
-        <p>Share files instantly with a simple drag-and-drop. Fast, secure, and easy to use.</p>
-        <Button onClick={handleGetStarted}>Get Started</Button>
-        
+        <h1>⚡QuickDrop</h1>
+        <Blur>
+          <BlurText
+            text="Share files instantly with a simple drag-and-drop. Fast, secure, and easy to use."
+            delay={150}
+            animateBy="words"
+            direction="top"
+            className="text-2xl mb-8"
+          />
+        </Blur>
+        {/* <p>Share files instantly with a simple drag-and-drop. Fast, secure, and easy to use.</p> */}
+        {/* <Button onClick={handleGetStarted}>Get Started</Button> */}
+        <ButtonWrapper>
+          <Button onClick={handleGetStarted} />
+        </ButtonWrapper>
       </HeroSection>
 
       {/* Features Section */}
