@@ -4,6 +4,7 @@ import styled, { keyframes } from "styled-components";
 import TiltedCard from "./components/TiltedCard";
 import Button from "./components/Button"; // Import the custom Button component
 import BlurText from "./components/BlurText";
+import Aurora from "./components/Aurora"; // Import Aurora
 
 
 // Keyframes for animations
@@ -30,14 +31,15 @@ const fadeIn = keyframes`
 //   }
 // `;
 
-// Styled components
+// Styled Components
 const Container = styled.div`
+  position: relative;  /* Ensure it acts as a relative container */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
+  overflow: hidden; /* Prevent unwanted scrollbars */
   font-family: "Poppins", sans-serif;
   color: white;
   padding: 20px;
@@ -46,6 +48,15 @@ const Container = styled.div`
   @media (max-width: 768px) {
     padding: 10px;
   }
+`;
+
+const AuroraWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Ensure it stays in the background */
 `;
 
 const HeroSection = styled.div`
@@ -131,6 +142,12 @@ const Home = () => {
 
   return (
     <Container>
+      {/* Aurora Background */}
+      <AuroraWrapper>
+        <Aurora colorStops={["#ff0066", "#4c00ff", "#00d9ff"]} speed={0.5} amplitude={1.0} />
+      </AuroraWrapper>
+
+
       {/* Hero Section */}
       <HeroSection>
         <h1>⚡QuickDrop</h1>

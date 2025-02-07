@@ -31,7 +31,7 @@ const StyledWrapper = styled.div`
     letter-spacing: 0.05em;
     display: flex;
     align-items: center;
-    box-shadow: inset 0 0 1.6em -0.6em rgb(65, 65, 65);
+    box-shadow: inset 0 0 1.6em -0.6em rgb(0, 0, 0);
     overflow: hidden;
     position: relative;
     height: 2.8em;

@@ -5,6 +5,7 @@ import { QRCodeCanvas } from 'qrcode.react';
 import styled, { keyframes } from 'styled-components';
 import FileUploader from './components/FileUploader';
 import BlurText from "./components/BlurText";
+import Aurora from "./components/Aurora"; // Import Aurora
 
 // Keyframes for animations
 const fadeIn = keyframes`
@@ -17,19 +18,22 @@ const pulse = keyframes`
   100% { transform: scale(1); }
 `;
 
-// Styled components
 const Container = styled.div`
+  position: relative;  /* Ensure it acts as a relative container */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  font-family: 'Poppins', sans-serif;
+  overflow: hidden; /* Prevent unwanted scrollbars */
+  font-family: "Poppins", sans-serif;
   color: white;
   padding: 0px;
   text-align: center;
-  position: relative;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 const HeroSection = styled.div`
@@ -69,6 +73,15 @@ const Button = styled.button`
   }
 `;
 
+const AuroraWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1; /* Ensure it stays in the background */
+`;
+
 const BackButton = styled(Button)`
   position: absolute;
   top: 20px;
@@ -84,10 +97,12 @@ const BackButton = styled(Button)`
 
 const QRCodeContainer = styled.div`
   margin-top: 30px;
+  margin-bottom: 20px;
   padding: 20px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
   transition: transform 0.3s ease-in-out;
   animation: ${fadeIn} 1s ease-in-out;
   &:hover {
@@ -114,11 +129,11 @@ const App = () => {
     const formData = new FormData();
     formData.append('file', file);
     try {
-      const response = await axios.post('https://2bfc-152-52-100-226.ngrok-free.app/upload', formData, {
+      const response = await axios.post('https://35f6-2405-201-e003-11a6-65cd-f52a-50ae-310f.ngrok-free.app/upload', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
       setFileUrl(response.data.fileUrl);
-      setNgrokUrl('https://2bfc-152-52-100-226.ngrok-free.app' + response.data.fileUrl);
+      setNgrokUrl('https://35f6-2405-201-e003-11a6-65cd-f52a-50ae-310f.ngrok-free.app' + response.data.fileUrl);
     } catch (error) {
       console.error('Error uploading file:', error);
     } finally {
@@ -128,6 +143,11 @@ const App = () => {
 
   return (
     <Container>
+      {/* Aurora Background */}
+      <AuroraWrapper>
+        <Aurora colorStops={["#ff0066", "#4c00ff", "#00d9ff"]} speed={0.5} amplitude={1.0} />
+      </AuroraWrapper>
+
       {/* Back Button */}
       <BackButton onClick={() => navigate('/')}>← Back to Home</BackButton>
 
