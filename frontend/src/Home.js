@@ -5,6 +5,7 @@ import TiltedCard from "./components/TiltedCard";
 import Button from "./components/Button"; // Import the custom Button component
 import BlurText from "./components/BlurText";
 import Aurora from "./components/Aurora"; // Import Aurora
+import Dock from './components/Dock'; // Import Dock
 
 
 // Keyframes for animations
@@ -127,6 +128,7 @@ const FeaturesSection = styled.div`
   gap: 20px;
   margin-top: 40px;
   animation: ${fadeIn} 1.5s ease-in-out;
+  margin-bottom: 100px;
 
   @media (max-width: 768px) {
     flex-direction: column;
@@ -233,6 +235,7 @@ const Home = () => {
           }
         />
       </FeaturesSection>
+      <Dock collapsible={false} position="bottom" responsive="bottom" />
     </Container>
   );
 };
