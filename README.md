@@ -6,6 +6,8 @@
   <img src="https://iili.io/2tN87Bn.png" alt="QuickDrop Logo" width="200" />
 </p>
 
+🚀 **Live Demo:** [QuickDrop](https://quickdrop-4ost.onrender.com/)
+
 **QuickDrop** is a modern, lightweight application that allows you to share files or folders directly from your laptop's memory without storing them anywhere else. With its intuitive drag-and-drop interface, QR code generation, and secure sharing via ngrok tunnels, QuickDrop makes file sharing faster, simpler, and more efficient than ever before.
 
 ---
