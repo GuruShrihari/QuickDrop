@@ -6,6 +6,9 @@ import styled, { keyframes } from 'styled-components';
 import FileUploader from './components/FileUploader';
 import BlurText from "./components/BlurText";
 import Aurora from "./components/Aurora";
+import Skeleton from '@mui/material/Skeleton';
+import Stack from '@mui/material/Stack';
+
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(20px); }
@@ -289,11 +292,42 @@ const App = () => {
             className="text-2xl mb-8"
           />
         </Blur>
+        <FileUploader onUpload={handleUpload} multiple={true} />
       </HeroSection>
 
-      <FileUploader onUpload={handleUpload} multiple={true} />
+      
 
-      {isLoading && <p>Uploading files...</p>}
+      {isLoading && <Stack spacing={2}>
+      {/* Text Skeleton with Custom Color and Font Size */}
+      <Skeleton 
+        variant="text" 
+        sx={{ fontSize: '1.5rem', bgcolor: 'rgba(255, 255, 255, 0.3)', borderRadius: '8px' }} 
+      />
+
+      {/* Circular Skeleton (already rounded) */}
+      <Skeleton 
+        variant="circular" 
+        width={50} 
+        height={50} 
+        sx={{ bgcolor: 'rgba(255, 255, 255, 0.3)' }} 
+      />
+
+      {/* Rectangular Skeleton with Rounded Corners */}
+      <Skeleton 
+        variant="rectangular" 
+        width={350} 
+        height={80} 
+        sx={{ bgcolor: 'rgba(255, 255, 255, 0.3)', borderRadius: '12px' }} 
+      />
+
+      {/* Rounded Skeleton with More Curved Corners */}
+      <Skeleton 
+        variant="rounded" 
+        width={350} 
+        height={80} 
+        sx={{ bgcolor: 'rgba(255, 255, 255, 0.3)', borderRadius: '16px' }} 
+      />
+    </Stack>}
 
       {uploadedFiles.length > 0 && (
         <>

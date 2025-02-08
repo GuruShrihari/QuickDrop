@@ -20,7 +20,7 @@ const DropzoneContainer = styled.div`
   background: rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease-in-out;
   backdrop-filter: blur(5px);
-  margin-top: 0px;
+  margin-top: 50px;
   
   &:hover {
     transform: scale(1.02);
@@ -48,12 +48,12 @@ const DropzoneContainer = styled.div`
   
   @media (max-width: 768px) {
     padding: 30px 10px 30px 0px ;
-    margin-top: 0px;
+    margin-top: 30px;
   }
   
   @media (max-width: 480px) {
     padding: 20px 10px 20px 0px ;
-    margin-top: 0px;
+    margin-top: 30px;
   }
 `;
 
