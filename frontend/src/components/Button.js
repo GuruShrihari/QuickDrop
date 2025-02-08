@@ -31,7 +31,7 @@ const StyledWrapper = styled.div`
     letter-spacing: 0.05em;
     display: flex;
     align-items: center;
-    box-shadow: inset 0 0 1.6em -0.6em rgb(0, 0, 0);
+    box-shadow:  rgba(97, 97, 97, 0.5) 0px 0px 5em 0em;;
     overflow: hidden;
     position: relative;
     height: 2.8em;
@@ -58,7 +58,7 @@ const StyledWrapper = styled.div`
   .cssbuttons-io-button .icon svg {
     width: 1.1em;
     transition: transform 0.3s;
-    color: #7b52b9;
+    color:rgb(238, 255, 0);
   }
   .cssbuttons-io-button:hover .icon svg {
     transform: translateX(0.1em);

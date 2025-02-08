@@ -44,6 +44,7 @@ const Container = styled.div`
   color: white;
   padding: 20px;
   text-align: center;
+  
 
   @media (max-width: 768px) {
     padding: 10px;
@@ -51,7 +52,7 @@ const Container = styled.div`
 `;
 
 const AuroraWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
