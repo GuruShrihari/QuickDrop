@@ -5,22 +5,21 @@ const ngrok = require('ngrok');
 const path = require('path');
 const fs = require('fs');
 const archiver = require('archiver');
+const cron = require('node-cron'); // Added cron
 const app = express();
 const PORT = 5000;
 const DELETE_AFTER_MS = 30 * 60 * 1000; // 30 minutes
 const UPLOAD_DIR = path.join(__dirname, 'uploads');
 
-
 app.use(cors({ origin: '*' }));
-app.use(express.static(path.join(__dirname, 'uploads')));
+app.use(express.static(UPLOAD_DIR));
 
 const storage = multer.diskStorage({
-  destination: (req, files, cb) => {
-    const dir = './uploads';
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
+  destination: (req, file, cb) => {
+    if (!fs.existsSync(UPLOAD_DIR)) {
+      fs.mkdirSync(UPLOAD_DIR, { recursive: true });
     }
-    cb(null, dir);
+    cb(null, UPLOAD_DIR);
   },
   filename: (req, file, cb) => {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
@@ -31,14 +30,10 @@ const storage = multer.diskStorage({
 const upload = multer({
   storage,
   limits: { fileSize: 500 * 1024 * 1024 },
-  fileFilter: (req, file, cb) => {
-    // Allow all file types
-    cb(null, true);
-  },
-}).array('files', 10); // Allow up to 10 files
+}).array('files', 10);
 
 app.get('/files/:filename', (req, res) => {
-  const filePath = path.join(__dirname, 'uploads', req.params.filename);
+  const filePath = path.join(UPLOAD_DIR, req.params.filename);
   if (fs.existsSync(filePath)) {
     res.sendFile(filePath);
   } else {
@@ -49,10 +44,7 @@ app.get('/files/:filename', (req, res) => {
 app.post('/upload', (req, res) => {
   upload(req, res, async (err) => {
     if (err) {
-      if (err.code === 'LIMIT_FILE_SIZE') {
-        return res.status(413).json({ message: 'File too large. Maximum size allowed is 500MB.' });
-      }
-      return res.status(500).json({ message: 'An error occurred while uploading the files.' });
+      return res.status(500).json({ message: 'File upload error.', error: err.message });
     }
 
     if (!req.files || req.files.length === 0) {
@@ -60,7 +52,7 @@ app.post('/upload', (req, res) => {
     }
 
     const zipFileName = `batch-${Date.now()}.zip`;
-    const zipFilePath = path.join(__dirname, 'uploads', zipFileName);
+    const zipFilePath = path.join(UPLOAD_DIR, zipFileName);
     const output = fs.createWriteStream(zipFilePath);
     const archive = archiver('zip', { zlib: { level: 9 } });
 
@@ -74,15 +66,7 @@ app.post('/upload', (req, res) => {
         })),
         zipUrl: `/files/${zipFileName}`
       });
-
-      // Schedule file deletion after 30 minutes
-      setTimeout(() => {
-        deleteFiles([...req.files.map(f => path.join(UPLOAD_DIR, f.filename)), zipFilePath]);
-      }, DELETE_AFTER_MS);
-      
     });
-
-    
 
     archive.on('error', (err) => {
       res.status(500).json({ message: 'Error creating zip file.' });
@@ -98,20 +82,38 @@ app.post('/upload', (req, res) => {
   });
 });
 
-function deleteFiles(files) {
-  files.forEach(file => {
-    if (fs.existsSync(file)) {
-      fs.unlink(file, (err) => {
+// Cron job runs every minute to delete old files
+cron.schedule('* * * * *', () => {
+  console.log('Running cron job to clean up old files...');
+  const now = Date.now();
+
+  fs.readdir(UPLOAD_DIR, (err, files) => {
+    if (err) {
+      console.error('Error reading upload directory:', err);
+      return;
+    }
+
+    files.forEach(file => {
+      const filePath = path.join(UPLOAD_DIR, file);
+      fs.stat(filePath, (err, stats) => {
         if (err) {
-          console.error(`Error deleting file ${file}:`, err);
-        } else {
-          return true;
+          console.error(`Error getting stats for file ${file}:`, err);
+          return;
+        }
+
+        if (now - stats.ctimeMs > DELETE_AFTER_MS) {
+          fs.unlink(filePath, (err) => {
+            if (err) {
+              console.error(`Error deleting file ${file}:`, err);
+            } else {
+              console.log(`Deleted old file: ${file}`);
+            }
+          });
         }
       });
-    }
+    });
   });
-}
-
+});
 
 app.listen(PORT, async () => {
   console.log(`Server running on http://localhost:${PORT}`);
