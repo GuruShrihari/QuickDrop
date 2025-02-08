@@ -7,6 +7,9 @@ const fs = require('fs');
 const archiver = require('archiver');
 const app = express();
 const PORT = 5000;
+const DELETE_AFTER_MS = 30 * 60 * 1000; // 30 minutes
+const UPLOAD_DIR = path.join(__dirname, 'uploads');
+
 
 app.use(cors({ origin: '*' }));
 app.use(express.static(path.join(__dirname, 'uploads')));
@@ -71,7 +74,15 @@ app.post('/upload', (req, res) => {
         })),
         zipUrl: `/files/${zipFileName}`
       });
+
+      // Schedule file deletion after 30 minutes
+      setTimeout(() => {
+        deleteFiles([...req.files.map(f => path.join(UPLOAD_DIR, f.filename)), zipFilePath]);
+      }, DELETE_AFTER_MS);
+      
     });
+
+    
 
     archive.on('error', (err) => {
       res.status(500).json({ message: 'Error creating zip file.' });
@@ -86,6 +97,21 @@ app.post('/upload', (req, res) => {
     archive.finalize();
   });
 });
+
+function deleteFiles(files) {
+  files.forEach(file => {
+    if (fs.existsSync(file)) {
+      fs.unlink(file, (err) => {
+        if (err) {
+          console.error(`Error deleting file ${file}:`, err);
+        } else {
+          return true;
+        }
+      });
+    }
+  });
+}
+
 
 app.listen(PORT, async () => {
   console.log(`Server running on http://localhost:${PORT}`);
