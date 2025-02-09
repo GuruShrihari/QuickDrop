@@ -200,7 +200,7 @@ const LinkInput = styled.input`
   border: 1px solid rgba(255, 255, 255, 0.2);
   background: rgba(255, 255, 255, 0.1);
   color: white;
-  margin: 10px 0;
+  margin: 10px 0px 0px -12px;
   font-size: 0.9rem;
   text-align: center;
   
